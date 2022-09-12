@@ -1,0 +1,7 @@
+#parse('facet_rangesCuration.vm')
+#parse('facet_fieldsCuration.vm')  
+##parse('facet_queriesCuration.vm')
+##parse('cluster.vm')        
+
+
+

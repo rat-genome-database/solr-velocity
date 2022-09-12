@@ -1,0 +1,5 @@
+#foreach($field in $response.facetFields)
+#foreach($facet in $field.values)
+$facet.name	$facet.count
+#end
+#end

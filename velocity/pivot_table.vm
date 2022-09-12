@@ -1,0 +1,7 @@
+#foreach ($pivot in $response.facetPivot)
+#foreach ($entry in $pivot.value)
+#foreach($nest in $entry.pivot)
+$entry.value	$nest.value	$nest.count
+#end
+#end
+#end

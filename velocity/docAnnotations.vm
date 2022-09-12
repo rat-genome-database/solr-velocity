@@ -1,0 +1,206 @@
+#if ($doc.getFieldValue('mt_id'))
+#set ($mt_id_values = $doc.getFieldValue('mt_id'))
+#set ($mt_term_values = $doc.getFieldValue('mt_term'))
+#set ($mt_count_values = $doc.getFieldValue('mt_count'))
+#set ($value_length = $mt_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$mt_term_values.get($i))
+#set ($count_value=$ctd_count_values.get($i))
+$term_value 
+#end
+#end
+#if ($doc.getFieldValue('bp_id'))
+#set ($bp_id_values = $doc.getFieldValue('bp_id'))
+#set ($bp_term_values = $doc.getFieldValue('bp_term'))
+#set ($bp_count_values = $doc.getFieldValue('bp_count'))
+#set ($value_length = $bp_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$bp_term_values.get($i))
+#set ($id_value=$bp_id_values.get($i))
+#set ($count_value=$bp_count_values.get($i))
+#addTerm($id_value)
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('chebi_id'))
+#set ($chebi_id_values = $doc.getFieldValue('chebi_id'))
+#set ($chebi_term_values = $doc.getFieldValue('chebi_term'))
+#set ($chebi_count_values = $doc.getFieldValue('chebi_count'))
+#set ($value_length = $chebi_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$chebi_term_values.get($i))
+#set ($id_value=$chebi_id_values.get($i))
+#set ($count_value=$chebi_count_values.get($i))
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('mf_id'))
+#set ($mf_id_values = $doc.getFieldValue('mf_id'))
+#set ($mf_term_values = $doc.getFieldValue('mf_term'))
+#set ($mf_count_values = $doc.getFieldValue('mf_count'))
+#set ($value_length = $mf_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$mf_term_values.get($i))
+#set ($id_value=$mf_id_values.get($i))
+#set ($count_value=$mf_count_values.get($i))
+#addTerm($id_value)
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('cc_id'))
+#set ($cc_id_values = $doc.getFieldValue('cc_id'))
+#set ($cc_term_values = $doc.getFieldValue('cc_term'))
+#set ($cc_count_values = $doc.getFieldValue('cc_count'))
+#set ($value_length = $cc_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$cc_term_values.get($i))
+#set ($id_value=$cc_id_values.get($i))
+#set ($count_value=$cc_count_values.get($i))
+#addTerm($id_value)
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('rs_id'))
+#set ($rs_id_values = $doc.getFieldValue('rs_id'))
+#set ($rs_term_values = $doc.getFieldValue('rs_term'))
+#set ($rs_count_values = $doc.getFieldValue('rs_count'))
+#set ($value_length = $rs_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$rs_term_values.get($i))
+#set ($id_value=$rs_id_values.get($i))
+#set ($count_value=$rs_count_values.get($i))
+#addTerm($id_value)
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('cmo_id'))
+#set ($cmo_id_values = $doc.getFieldValue('cmo_id'))
+#set ($cmo_term_values = $doc.getFieldValue('cmo_term'))
+#set ($cmo_count_values = $doc.getFieldValue('cmo_count'))
+#set ($value_length = $cmo_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$cmo_term_values.get($i))
+#set ($id_value=$cmo_id_values.get($i))
+#set ($count_value=$cmo_count_values.get($i))
+#addTerm($id_value)
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('mmo_id'))
+#set ($mmo_id_values = $doc.getFieldValue('mmo_id'))
+#set ($mmo_term_values = $doc.getFieldValue('mmo_term'))
+#set ($mmo_count_values = $doc.getFieldValue('mmo_count'))
+#set ($value_length = $mmo_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$mmo_term_values.get($i))
+#set ($id_value=$mmo_id_values.get($i))
+#set ($count_value=$mmo_count_values.get($i))
+#addTerm($id_value)
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('xco_id'))
+#set ($xco_id_values = $doc.getFieldValue('xco_id'))
+#set ($xco_term_values = $doc.getFieldValue('xco_term'))
+#set ($xco_count_values = $doc.getFieldValue('xco_count'))
+#set ($value_length = $xco_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$xco_term_values.get($i))
+#set ($id_value=$xco_id_values.get($i))
+#set ($count_value=$xco_count_values.get($i))
+#addTerm($id_value)
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('so_id'))
+#set ($so_id_values = $doc.getFieldValue('so_id'))
+#set ($so_term_values = $doc.getFieldValue('so_term'))
+#set ($so_count_values = $doc.getFieldValue('so_count'))
+#set ($value_length = $so_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$so_term_values.get($i))
+#set ($id_value=$so_id_values.get($i))
+#set ($count_value=$so_count_values.get($i))
+#addTerm($id_value)
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('pw_id'))
+#set ($pw_id_values = $doc.getFieldValue('pw_id'))
+#set ($pw_term_values = $doc.getFieldValue('pw_term'))
+#set ($pw_count_values = $doc.getFieldValue('pw_count'))
+#set ($value_length = $pw_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$pw_term_values.get($i))
+#set ($id_value=$pw_id_values.get($i))
+#set ($count_value=$pw_count_values.get($i))
+#addTerm($id_value)
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('ma_id'))
+#set ($ma_id_values = $doc.getFieldValue('ma_id'))
+#set ($ma_term_values = $doc.getFieldValue('ma_term'))
+#set ($ma_count_values = $doc.getFieldValue('ma_count'))
+#set ($value_length = $ma_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$ma_term_values.get($i))
+#set ($id_value=$ma_id_values.get($i))
+#set ($count_value=$ma_count_values.get($i))
+#addTerm($id_value)
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('cl_id'))
+#set ($cl_id_values = $doc.getFieldValue('cl_id'))
+#set ($cl_term_values = $doc.getFieldValue('cl_term'))
+#set ($cl_count_values = $doc.getFieldValue('cl_count'))
+#set ($value_length = $cl_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$cl_term_values.get($i))
+#set ($id_value=$cl_id_values.get($i))
+#set ($count_value=$cl_count_values.get($i))
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('mp_id'))
+#set ($mp_id_values = $doc.getFieldValue('mp_id'))
+#set ($mp_term_values = $doc.getFieldValue('mp_term'))
+#set ($mp_count_values = $doc.getFieldValue('mp_count'))
+#set ($value_length = $mp_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$mp_term_values.get($i))
+#set ($id_value=$mp_id_values.get($i))
+#set ($count_value=$mp_count_values.get($i))
+#addTerm($id_value)
+$id_value 
+#end
+#end
+#if ($doc.getFieldValue('nbo_id'))
+#set ($nbo_id_values = $doc.getFieldValue('nbo_id'))
+#set ($nbo_term_values = $doc.getFieldValue('nbo_term'))
+#set ($nbo_count_values = $doc.getFieldValue('nbo_count'))
+#set ($value_length = $nbo_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$nbo_term_values.get($i))
+#set ($id_value=$nbo_id_values.get($i))
+#set ($count_value=$nbo_count_values.get($i))
+#addTerm($id_value)
+$id_value 
+#end
+#end
+#if ($doc.getFirstValue('organism_ncbi_id'))
+#set($organism_id=$doc.getFieldValue('organism_ncbi_id'))
+#set($organism_term=$doc.getFieldValue('organism_term'))
+#set ($organism_count_values = $doc.getFieldValue('organism_count'))
+#set ($organism_pos = $doc.getFieldValue('organism_pos'))
+#set ($value_length = $organism_id.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$organism_term.get($i))
+#set ($id_value=$organism_id.get($i))
+#set ($count_value=$organism_count_values.get($i))
+#set ($pos_value=$organism_pos.get($i))
+$id_value 
+#end
+#end
+
