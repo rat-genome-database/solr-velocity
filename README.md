@@ -1,2 +1,2 @@
 # solr-velocity
-search UI for OntoMate 
+OntoMate UI with velocity
