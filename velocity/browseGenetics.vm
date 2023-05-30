@@ -1,0 +1,296 @@
+#set($searcher=$request.searcher)
+#set($params=$request.params)
+#set($clusters = $response.response.clusters)
+#set($mltResults = $response.response.get("moreLikeThis"))
+#set($annotate = $params.get("annotateBrowse"))
+#set($resultCountStr = $number.format("#*,*", $page.results_found))
+#set($pageStr = $number.format("#*,*", $page.current_page_number))
+#set($pageCountStr = $number.format("#*,*", $page.page_count))
+#set($curLogServer = "https://ontomate.rgd.mcw.edu")
+Query condition: 
+#set($messageLabel=$request.params.get('message_label'))
+#if ($messageLabel.length()>100) 
+<script>
+var tMsg = "short";
+var longMsg = "$messageLabel";
+var shortMsg = "$messageLabel.substring(0,100) ...";
+function toggleMessage() {
+  if (tMsg == "short") {
+    $("#toggleMsg").text("less");
+    $("#msgLabel").text(longMsg);
+    tMsg = "long";
+  } else {
+    $("#toggleMsg").text("more");
+    $("#msgLabel").text(shortMsg);
+    tMsg = "short";
+  }
+}
+</script>
+<span style="color:brown;" id="msgLabel">$messageLabel.substring(0,100) ...</span> <a id="toggleMsg" href="#" onclick="toggleMessage();return false;">more</a>
+#else
+<span style="color:brown;" id="msgLabel">$messageLabel</span>
+#end
+###parse('queryCuration.vm')
+    <div class="result-terms" #annTitle("Lists out the &fq filters.  Click to remove.")>
+      #if ($params.getParams('fq'))
+Filters: <a href="javascript:facetQueryPath(0)">All</a>     
+      #end
+      #foreach($fq in $params.getParams('fq'))
+        #set($previous_fq_count=$velocityCount - 0)
+        #if($fq != '')
+
+          #set ($fieldName=$fq.substring(0, $fq.indexOf(':')))
+          #set ($fieldType=$fieldName.substring($math.sub($fieldName.length(),3), $fieldName.length()))
+          #set ($fieldValue=$fq.substring($math.add($fq.indexOf(':'),2), $math.sub($fq.length(),1)))
+
+          #if($fieldType && $fieldType == "_id" && $fieldValue != '*')
+              #set($fieldValue=$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldValue%22)"))
+          #end
+              #set($fq=$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldName%22)")+": "+$fieldValue)
+              ###set($fq=$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldName%22)")+":"+$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldValue%22)"))
+        #if ($previous_fq_count < $params.getParams('fq').size())
+          &gt; <a href="javascript:facetQueryPath($previous_fq_count)">$fq</a>
+        #else
+          &gt; $fq
+        #end
+        #end
+      #end
+    </div>
+#if($response.response.spellcheck.suggestions and $response.response.spellcheck.suggestions.size() > 0)
+  Did you mean <a href="#url_for_home?q=$esc.url($response.response.spellcheck.suggestions.collation)#if($list.size($request.params.getParams('fq')) > 0)&#fqs($request.params.getParams('fq'))#end#debug">$response.response.spellcheck.suggestions.collation</a>?
+#end
+###<br><a href="/QueryBuilder/">Back to <b>QueryBuilder</b></a>
+<script type="text/javascript">
+#parse("facet_js.vm")
+$(function() {
+    $( document ).tooltip({
+  content: function() {
+    return  $( this ).attr( "title" );
+  }
+});
+  });
+
+function convertAnnotation(annData) {
+  var anns=annData.split('~');
+  var returnStr = '<div class="result-citation">' ;
+  var lastAnn1 = "";
+  var lastAnn2 = "";
+  for (var i=0; i < anns.length-1; i++) {
+    var annPart=anns[i].split('|');
+    var curAnn1 = '<span class="tooltip-gene">' + annPart[0].toUpperCase() + '</span>---<span class="tooltip-term">' + annPart[3] + "</span>: <br />" ;
+    var curAnn2 =  '<span class="tooltip-species">'+ annPart[6] + '</span> (<span class="tooltip-evi">' + annPart[4] + "</span>)";
+    if (lastAnn1 == "") {
+      lastAnn1 = curAnn1;
+    }
+    if (curAnn1 != lastAnn1) {
+      returnStr += lastAnn1 + lastAnn2 + "<br /><br />" ;
+      lastAnn1 = curAnn1;
+      lastAnn2 = curAnn2;
+    } else {
+      if (lastAnn2 != "") lastAnn2 += ", ";
+      lastAnn2 += curAnn2;
+    }
+  }
+  returnStr += lastAnn1 + lastAnn2 + "<br />" ;
+  return returnStr + "</div>";
+}
+
+function setAnn(pmid, aspect, data) {
+  var controlName1 = "#ann"+pmid;
+  var controlName2 = "#ann"+aspect+pmid;
+  if (data.data != 'ERROR') {
+    $(controlName1).show();
+    $(controlName2).show();
+    $(controlName2).attr("title", convertAnnotation(data.data));
+  } else {
+    $(controlName2).hide();
+  }
+}
+
+//function getParameterByName(name) {
+    //name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    //var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        //results = regex.exec(location.search);
+    //return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+//}
+function getAnn(pmid, aspect) {
+  $.ajax({url:"https://pipelines.rgd.mcw.edu/rgdweb/webservice/refAnnots.html?pmid="+pmid+"&aspect="+aspect+"&jsonp="+aspect+"_"+pmid, dataType: 'jsonp'});
+}
+
+function getParameterByName(name) {
+return "$request.params.get('curHost')";
+}
+
+function openParent(pmid) {
+host = getParameterByName('curHost');
+window.opener.location.href="https://" + host + "/rgdCuration/?module=curation&func=addPubmedIDToBucket&PMID=" + pmid;
+window.opener.focus();
+}
+
+function searchParentObj(objLabel) {
+host = getParameterByName('curHost');
+window.opener.location.href="https://" + host + "/rgdCuration/?matchType=equals&objectType=14&submitBtn=Search+for+Object&hiddenXYZ123=&module=curation&func=searchObjects&objectName=" + objLabel;
+window.opener.focus();
+}
+
+function addTermToParent(ontoTerm) {
+host = getParameterByName('curHost');
+window.opener.location.href="https://" + host + "/rgdCuration/?module=curation&func=addTermToBucket&termAcc=" + ontoTerm;
+window.opener.focus();
+}
+
+function facetQuery(field, value) {
+  if (value == '*') {
+    newValue = field + ':(' + value + ')';
+  } else {
+    newValue = field + ':"' + value + '"';
+  };
+  $("#fqEnd").before('<input id="fq" type="hidden" name="fq" value=\'' + newValue + '\'/>');
+  $("#start").val("0");
+  $("form#queryForm").submit();
+}
+
+function facetQueryNum(field, value) {
+  newValue = field + ':' + value;
+  $("#fqEnd").before('<input id="fq" type="hidden" name="fq" value=\'' + newValue + '\'/>');
+  $("#start").val("0");
+  $("form#queryForm").submit();
+}
+
+function startPage(recordNumber) {
+  $("#start").val(recordNumber);
+  $("form#queryForm").submit();
+}
+
+function facetQueryPath(index) {
+$('input[id^=fq]').each(function(i) {
+   if (i >= index) $(this).attr("disabled", "disabled");
+});
+  $("form#queryForm").submit();
+}
+
+function gotoStart() {
+  pageNum = $("#start1").val() - 1;
+  startPage(pageNum);
+}
+
+    $(document).ready(function(){
+     $("#facet_tabs").tabs();
+     $("#selectSort").val("$request.params.get('sort')");
+     $("#selectSort").change(function(){$("#sortCond").val($(this).find(":selected").val());resubmitQuery();});
+
+    });
+
+   function highlightTerm(obj, term) {
+    $('#til_'+obj).highlight(term, "0");
+    $('#abstext_'+obj).highlight(term, "1");
+   }
+
+   function highlightTerm1(obj, pos) {
+    $('#til_'+obj).highlight1(pos, "0");
+    $('#abstext_'+obj).highlight1(pos, "1");
+   }
+
+   function removeHighlight(obj) {
+    $('#til_'+obj).removeHighlight();
+    $('#abstext_'+obj).removeHighlight();
+   }
+
+function resubmitQuery() {
+  $("#start").val("0");
+  $("form#queryForm").submit();
+}
+</script>
+
+<form id="queryForm" action="/solr/browse" method="post">
+ <input type="hidden" name="q" value = '$request.params.get("q")'/>
+ <input type="hidden" name="hl.q" value = '$request.params.get("hl.q")'/>
+ <input id="start" type="hidden" name="start" value = '$request.params.get("start")'/>
+ <input type="hidden" id="sortCond" name="sort" value = "$request.params.get('sort')"/>
+ <input type="hidden" name="qf" value="$request.params.get('qf')"/>
+ <input type="hidden" name="mm" value="$request.params.get('mm')"/>
+ <input type="hidden" name="curHost" value="$request.params.get('curHost')"/>
+ <input type="hidden" name="message_label" value="$request.params.get('message_label')"/>
+ <input type="hidden" name="v.template" value="browseGenetics"/>
+ <input type="hidden" name="v.layout" value="layoutGenetics"/>
+#foreach($fq in $request.params.getParams('fq'))
+ #if ($fq != "")
+ <input id="fq" type="hidden" name="fq" value='$fq'/>
+ #end
+#end
+
+#foreach($facet_field in $request.params.getParams('facet.field'))
+ #if ($fq != "")
+ <input id="facet_field" type="hidden" name="facet.field" value='$facet_field'/>
+ #end
+#end
+
+ <input id="fqEnd" type="hidden"/>
+</form>
+<br>
+<div class="navigators">
+  #parse("facetsCuration.vm")
+</div>
+
+<div class="pagination" style="font-size:8px">
+#set($start_page=$page.start+1)
+<table>
+<tr>
+<td width="80%" align="left">
+<form id="paginationForm"  style="font-size:10px" action="javascript:gotoStart();">
+Start Record: <input type="text" id="start1" name="start1" size="8" value="$start_page" style="font-size:10px"/>
+ <input id="bnSubmit" type="button" onclick="gotoStart();" value="Go to"/>
+  Sort by: <select id="selectSort"  style="font-size:10px">
+  <option value="score desc">Relevance</option>
+  <option value="p_date desc">Publication Date</option>
+  <option value="pmid_l desc">PMID</option>
+</select>
+</form>
+</td>
+<td style="font-size:9px" align="right">
+
+  #if($response.response.get('grouped'))
+    <span><span class="results-found">$response.response.get('grouped').size() group(s)</span> found in ${response.responseHeader.QTime} ms</span>
+  #else
+<span><span class="results-found">$resultCountStr</span> results found in ${response.responseHeader.QTime} ms</span><br>
+  #link_to_previous_page_curation("previous")
+  Page <span class="page-num">$pageStr</span> of <span
+        class="page-count">$pageCountStr</span>#end
+  #link_to_next_page_curation("next")
+</td>
+</tr>
+</table>
+</div>
+<div class="results">
+  #if($response.response.get('grouped'))
+    #foreach($grouping in $response.response.get('grouped'))
+      #parse("hitGrouped.vm")
+    #end
+  #else
+    #set($hitCount=$page.start)
+    #foreach($doc in $response.results)
+      #set($hitCount=$math.add($hitCount,1))
+      #parse("hitGenetics.vm")
+    #end
+  #end
+</div>
+
+<div class="pagination">
+<table>
+<tr>
+<td width="80%" align="left">
+</td>
+<td align="right" style="font-size:9px">
+  #if($response.response.get('grouped'))
+  #else
+  #link_to_previous_page_curation("previous")
+  <span class="results-found">$resultCountStr</span> results found.
+  Page <span class="page-num">$pageStr</span> of <span
+        class="page-count">$pageCountStr</span>
+  #link_to_next_page_curation("next")
+  #end
+  <br/>
+</td>
+</tr>
+</table>
+</div>

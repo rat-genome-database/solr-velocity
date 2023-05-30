@@ -1,0 +1,162 @@
+#set($nih_url = "http://www.ncbi.nlm.nih.gov/pubmed/" + $doc.getFieldValue('pmid'))
+#set($dbSnp_base="http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs=")
+#set( $pmid =  $doc.getFieldValue('pmid') )
+<div>$hitCount.  PMID: $pmid &nbsp;&nbsp;<i>#field('p_type')</i>
+&nbsp;&nbsp; <a href="$nih_url">NCBI page</a>
+#if ($doc.getFieldValue('pmc_id_s'))
+   <b> <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/$doc.getFieldValue('pmc_id_s')/">Free PMC Article</a></b>
+#elseif ($doc.getFieldValue('doi_s'))
+   <b> <a href="http://dx.doi.org/$doc.getFieldValue('doi_s')">Full Text Article via DOI</a></b>
+#end
+&nbsp;
+&nbsp;
+<a href="http://pipelines.rgd.mcw.edu/rgdweb/pubmed/getReference.html?pmid=$doc.getFieldValue('pmid')&type=redirect" target="_blank"><img src="http://pipelines.rgd.mcw.edu/rgdweb/pubmed/rgdLogo.png?pmid=$doc.getFieldValue('pmid')" alt="" width="90" height="30"></a>
+<span id="annP$doc.getFieldValue('pmid')" style="float: right;">P </span>
+<span id="annF$doc.getFieldValue('pmid')" style="float: right;">F </span>
+<span id="annD$doc.getFieldValue('pmid')" style="float:right;">D </span>&nbsp;&nbsp;
+<span id="annC$doc.getFieldValue('pmid')" style="float: right;">C </span>&nbsp;
+<span id="ann$doc.getFieldValue('pmid')" style="visibility:hidden;">
+RGD annotations:
+</span>
+
+</div>
+<script>
+
+var r_ann_$hitCount;
+$('#container').load('http://google.com');
+$.support.cors = true;
+
+getAnn("$doc.getFieldValue('pmid')", "C");
+getAnn("$doc.getFieldValue('pmid')", "D");
+getAnn("$doc.getFieldValue('pmid')", "F");
+getAnn("$doc.getFieldValue('pmid')", "P");
+
+function C_$doc.getFieldValue('pmid')(data) { setAnn("$doc.getFieldValue('pmid')", "C", data); }
+function D_$doc.getFieldValue('pmid')(data) { setAnn("$doc.getFieldValue('pmid')", "D", data); }
+function F_$doc.getFieldValue('pmid')(data) { setAnn("$doc.getFieldValue('pmid')", "F", data); }
+function P_$doc.getFieldValue('pmid')(data) { setAnn("$doc.getFieldValue('pmid')", "P", data); }
+</script>
+
+#if($response.response.highlighting.get($docId).get('abstract').get(0))
+#set( $abstract_text = $!response.response.highlighting.get($docId).get('abstract').get(0))
+  #else
+#set( $abstract_text = $doc.getFieldValue('abstract'))
+  #end
+#set( $mesh_text = $doc.getFieldValue('mesh_terms'))
+###set( $epub_date = $dateTool.format("MMM dd yyyy", $doc.getFieldValue('epub_date')))
+###set( $j_date = $doc.getFieldValue('j_date_s'))
+##<div><font size=2>$title_text</font></div>
+<div>#field('citation')</div>
+<div id="til_$pmid" style="font-size:16px;color:black;background-color:white;">#field('title')</div>
+#if ($abstract_text.length() > 0 )
+<div><font size=1>ABSTRACT <input type="button" value="show" onclick="if ($(this).val() == 'hide'){$(this).val('show');$('#abs_$pmid').hide('fast'); $.ajax({url:'http://$curLogServer/QueryBuilder/setSkynetAbstractVisited?action=close&PmId=$pmid&userKey=0&userFullName=skynet'});} else {$(this).val('hide');$('#abs_$pmid').show('fast');$.ajax({url:'http://$curLogServer/QueryBuilder/setSkynetAbstractVisited?action=open&PmId=$pmid&userKey=0&userFullName=skynet'});}"></input><br></font> 
+<div id="abs_$pmid" class="result-citation" style="display: none">
+###<span>#field('authors')</span>
+</span><div id="abstext_$pmid" style="abs_body">$abstract_text.replaceAll('\n', '<br>')</div>
+</span>
+</div>
+</div>
+#end
+--------------------------------
+#if ($doc.getFieldValue('rdo_id'))
+#set ($rdo_id_values = $doc.getFieldValue('rdo_id'))
+#set ($rdo_term_values = $doc.getFieldValue('rdo_term'))
+#set ($rdo_count_values = $doc.getFieldValue('rdo_count'))
+<div>Disease terms:
+#set ($value_length = $rdo_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($id_value=$rdo_id_values.get($i))
+#set ($term_value=$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$id_value%22)"))
+#foreach ($hl_rdo in $response.response.highlighting.get($docId).get('rdo_id'))
+#if ($hl_rdo.contains($id_value))
+#set( $term_value = "<b style='background:yellow'>$term_value</b>")
+#end
+#end
+#set ($count_value=$rdo_count_values.get($i))
+<a href="http://rgd.mcw.edu/rgdweb/ontology/annot.html?acc_id=$id_value" onmouseover="highlightTerm('$pmid','$esc.javascript($term_value)')" onmouseout="removeHighlight('$pmid')">$term_value</a>&nbsp;&nbsp;
+#end
+</div>
+#end
+
+#if ($doc.getFieldValue('gene'))
+#set ($genes=$doc.getFieldValue('gene'))
+#if ($response.response.highlighting.get($docId).get('gene').get(0))
+#set ($genes=$response.response.highlighting.get($docId).get('gene'))
+#end
+#set ($genes_count=$doc.getFieldValue('gene_count'))
+#set ($genes_pos = $doc.getFieldValue('gene_pos'))
+<div>Genes:
+#set ($value_length = $genes.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($gene=$genes.get($i))
+#set ($pos_value=$genes_pos.get($i))
+<span class="highlight-gene" onmouseover="highlightTerm1('$pmid','$pos_value')" onmouseout="removeHighlight('$pmid')">$gene</span>&nbsp;&nbsp;&nbsp;
+#end
+</div>
+#end
+
+#if ($doc.getFieldValue('mt_id'))
+#set ($mt_id_values = $doc.getFieldValue('mt_id'))
+#set ($mt_term_values = $doc.getFieldValue('mt_term'))
+#set ($mt_count_values = $doc.getFieldValue('mt_count'))
+<div>Mutations:
+#set ($value_length = $mt_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#if ($i < $mt_term_values.size())
+#set ($term_value=$mt_term_values.get($i))
+#set ($count_value=$mt_count_values.get($i))
+#set ($mt_ft="")
+#if ($count_value ==0)
+#set ($mt_ft='class="fullTextLink"')
+#end
+#if ($term_value.toLowerCase().indexOf("rs")==0) 
+#set($rs_id=$term_value.substring(2,$term_value.length()))
+<a $mt_ft href="$dbSnp_base$rs_id" onmouseover="highlightTerm('$pmid','$esc.javascript($term_value)')" onmouseout="removeHighlight('$pmid')">$term_value</a>&nbsp;&nbsp;&nbsp;
+#else
+<span class="highlight-gene" onmouseover="highlightTerm('$pmid','$esc.javascript($term_value)')" onmouseout="removeHighlight('$pmid')">$term_value</span>&nbsp;&nbsp;&nbsp;
+#end
+#end
+#end
+</div>
+#end
+         
+#if ($doc.getFieldValue('snp_id'))
+#set ($snp_id_values = $doc.getFieldValue('snp_id'))
+#set ($snp_term_values = $doc.getFieldValue('snp_term'))
+#set ($snp_count_values = $doc.getFieldValue('snp_count'))
+<div>SNPs:
+#set ($value_length = $snp_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$snp_term_values.get($i))
+#set ($count_value=$ctd_count_values.get($i))
+<span onmouseover="highlightTerm('$pmid','$esc.javascript($term_value)')" onmouseout="removeHighlight('$pmid')">$term_value   </span>
+#end
+</div>
+#end
+
+
+##<div>Text: #field('text')</div>
+##<div>Sentence: #field('sentence')</div>
+##<div>Language: #field('language')</div>
+##<div>Text: #field('text')</div>
+<div class="mlt">
+  #set($mlt = $mltResults.get($docId))
+  #set($mltOn = $params.getBool('mlt'))
+  #if($mltOn == true)<div class="field-name">Similar Items</div>#end
+  #if ($mltOn && $mlt && $mlt.size() > 0)
+  <ul>
+    #foreach($mltHit in $mlt)
+      #set($mltId = $mltHit.getFieldValue('pmid'))
+      <li><div><a href="#url_for_home?q=id:$mltId">$mltId</a></div><div><span class="field-name">Title:</span> $mltHit.getFieldValue('Title')</div>
+        <div><span class="field-name">Abstract:</span> $mltHit.getFieldValue('abstract') </div>
+      </li>
+    #end
+  </ul>
+  #elseif($mltOn && $mlt.size() == 0)
+    <div>No Similar Items Found</div>
+  #end
+</div>
+#if($params.getBool("debugQuery",false))
+  <a href="#" onclick='jQuery(this).siblings("pre").toggle(); return false;'>toggle explain</a>
+  <pre style="display:none">$response.getExplainMap().get($doc.getFirstValue('id'))</pre>
+#end

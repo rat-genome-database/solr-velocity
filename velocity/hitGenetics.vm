@@ -1,0 +1,5 @@
+#set($docId = $doc.getFieldValue('pmid'))
+
+<div class="result-document">
+  #parse("docGenetics.vm")
+</div>

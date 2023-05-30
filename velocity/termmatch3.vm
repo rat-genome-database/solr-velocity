@@ -1,0 +1,23 @@
+#set($q=$request.params.get("q"))
+#set($qTerm=$q.substring($q.lastIndexOf("(")))
+#set($index=$qTerm.lastIndexOf(")"))
+#set($lastIndex = $index - 1)
+#set($val=$qTerm.substring(1, $lastIndex))
+
+#set($uniqueResults=[])
+#set($resultsMap=$contents.getEmptyMap())
+#set($cat='')
+#foreach($doc in $response.results)
+	#foreach($fval in $doc.getFieldValue("organism_term"))
+	#set($term = $fval.toLowerCase())
+	#if(!$uniqueResults.contains($term))
+	#set($output=$uniqueResults.add($term))
+	#end
+	#end
+
+#end
+#foreach($r in $uniqueResults)
+#if($r.contains($val)) 
+$r
+#end
+#end

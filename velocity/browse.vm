@@ -6,7 +6,7 @@
 #set($resultCountStr = $number.format("#*,*", $page.results_found))
 #set($pageStr = $number.format("#*,*", $page.current_page_number))
 #set($pageCountStr = $number.format("#*,*", $page.page_count))
-Query condition: <span style="color:brown;">$request.params.get('message_label') JTHOTA</span>
+Query condition: <span style="color:brown;">$request.params.get('message_label')</span>
 ###parse('queryCuration.vm')
     <div class="result-terms" #annTitle("Lists out the &fq filters.  Click to remove.")>
       #if ($params.getParams('fq'))
@@ -21,12 +21,15 @@ Filters: <a href="javascript:facetQueryPath(0)">All</a>
           #set ($fieldValue=$fq.substring($math.add($fq.indexOf(':'),2), $math.sub($fq.length(),1)))
 
           #if($fieldType && $fieldType == "_id" && $fieldValue != '*')
-              #set($fieldValue=$import.read("https://ontomate.rgd.mcw.edu/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldValue%22)"))
-            
+              #set($fieldValue=$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldValue%22)"))
           #end
-              #set($fq=$import.read("https://ontomate.rgd.mcw.edu/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldName%22)")+": "+$fieldValue)
-              ###set($fq=$import.read("https://ontomate.rgd.mcw.edu/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldName%22)")+":"+$import.read("https://ontoamte.rgd.mcw.edu/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldValue%22)"))
-        &gt; <a href="javascript:facetQueryPath($previous_fq_count)">$fq</a>
+              #set($fq=$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldName%22)")+": "+$fieldValue)
+              ###set($fq=$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldName%22)")+":"+$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldValue%22)"))
+        #if ($previous_fq_count < $params.getParams('fq').size())
+          &gt; <a href="javascript:facetQueryPath($previous_fq_count)">$fq</a>
+        #else
+          &gt; $fq
+        #end
         #end
       #end
     </div>
@@ -87,11 +90,9 @@ function setAnn(pmid, aspect, data) {
     //return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 //}
 function getAnn(pmid, aspect) {
-  $.ajax({url:"https://pipelines.rgd.mcw.edu/rgdweb/webservice/refAnnots.html?pmid="+pmid+"&aspect="+aspect+"&jsonp="+aspect+"_"+pmid, dataType: 'jsonp'});
+  $.ajax({url:"https://rgd.mcw.edu/rgdweb/webservice/refAnnots.html?pmid="+pmid+"&aspect="+aspect+"&jsonp="+aspect+"_"+pmid, dataType: 'jsonp'});
 }
-
 function getParameterByName(name) {
-console.log('curHost:'+name);
 return "$request.params.get('curHost')";
 }
 
@@ -150,6 +151,8 @@ function gotoStart() {
 
     $(document).ready(function(){
      $("#facet_tabs").tabs();
+     $("#selectSort").val("$request.params.get('sort')");
+     $("#selectSort").change(function(){$("#sortCond").val($(this).find(":selected").val());resubmitQuery();});
 
     });
 
@@ -168,12 +171,16 @@ function gotoStart() {
     $('#abstext_'+obj).removeHighlight();
    }
 
+function resubmitQuery() {
+  $("#start").val("0");
+  $("form#queryForm").submit();
+}
 </script>
 
 <form id="queryForm" action="/solr/browse" method="post">
  <input type="hidden" name="q" value = '$request.params.get("q")'/>
  <input id="start" type="hidden" name="start" value = '$request.params.get("start")'/>
- <input type="hidden" name="sort" value = "$request.params.get('sort')"/>
+ <input id="sortCond" type="hidden" name="sort" value = "$request.params.get('sort')"/>
  <input type="hidden" name="qf" value="$request.params.get('qf')"/>
  <input type="hidden" name="mm" value="$request.params.get('mm')"/>
  <input type="hidden" name="curHost" value="$request.params.get('curHost')"/>
@@ -205,6 +212,11 @@ function gotoStart() {
 <form id="paginationForm"  style="font-size:10px" action="javascript:gotoStart();">
 Start Record: <input type="text" id="start1" name="start1" size="8" value="$start_page" style="font-size:10px"/>
  <input id="bnSubmit" type="button" onclick="gotoStart();" value="Go to"/>
+  Sort by: <select id="selectSort"  style="font-size:10px">
+  <option value="score desc">Relevance</option>
+  <option value="p_date desc">Publication Date</option>
+  <option value="pmid_l desc">PMID</option>
+</select>
 </form>
 </td>
 <td style="font-size:9px" align="right">

@@ -277,7 +277,9 @@ $v
 #end
 #end  
 
-#macro(addTerm $onto_id) <a href="javascript:addTermToParent('$pmid', '$onto_id');"><img src="http://pipelines.rgd.mcw.edu/rgdCuration/icons/basket_add.png" width="10" height="10"></a>&nbsp;#end
+#macro(addTerm $onto_id) <a href="javascript:addTermToParent('$pmid', '$onto_id');"><img src="https://pipelines.rgd.mcw.edu/rgdCuration/icons/basket_add.png" width="10" height="10"></a>&nbsp;#end
 
-#macro(getTermFromId $onto_id) $import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$onto_id%22)") #end
+#macro(addGene $gene) <a href="javascript:searchGene('$pmid', '$gene');"><img src="https://pipelines.rgd.mcw.edu/rgdCuration/icons/zoom.png" width="10" height="10"></a>&nbsp;#end
+
+#macro(getTermFromId $onto_id) $import.read("https://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$onto_id%22)") #end
 #macro(getTermFromId1 $onto_id) $onto_id #end

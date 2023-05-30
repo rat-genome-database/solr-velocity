@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/spinner
+END
+spinner.html
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/spinner/spinner.html
+END
+spinner_common.js
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/spinner/spinner_common.js
+END
+spinner_core.js
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/spinner/spinner_core.js
+END
+spinner_options.js
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/spinner/spinner_options.js
+END
+spinner_test_helpers.js
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/spinner/spinner_test_helpers.js
+END
+all.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/spinner/all.html
+END
+spinner_methods.js
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/spinner/spinner_methods.js
+END
+spinner_events.js
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/spinner/spinner_events.js
+END

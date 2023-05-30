@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/datepicker
+END
+datepicker_options.js
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/datepicker/datepicker_options.js
+END
+datepicker_test_helpers.js
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/datepicker/datepicker_test_helpers.js
+END
+datepicker_methods.js
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/datepicker/datepicker_methods.js
+END
+datepicker_events.js
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/datepicker/datepicker_events.js
+END
+all.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/datepicker/all.html
+END
+datepicker.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/datepicker/datepicker.html
+END
+datepicker_common.js
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/datepicker/datepicker_common.js
+END
+datepicker_core.js
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/datepicker/datepicker_core.js
+END

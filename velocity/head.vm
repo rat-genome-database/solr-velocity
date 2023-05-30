@@ -19,11 +19,26 @@
 
 <title>#param('title')</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-
-<script type="text/javascript" src="#{url_for_solr}/admin/file?file=/jquery/jquery-1.9.1.js"></script>
+ <meta charset="utf-8">
+<!--script type="text/javascript" src="#{url_for_solr}/admin/file?file=/jquery/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="#{url_for_solr}/admin/file?file=/jquery/ui/jquery-ui.js"></script>
   <link rel="stylesheet" href="#{url_for_solr}/admin/file?file=/jquery/themes/base/jquery-ui.css&contentType=text/css" type="text/css" />
   <script type="text/javascript" src="#{url_for_solr}/admin/file?file=/velocity/jquery.highlight-3.js&contentType=text/javascript"></script>
 
-  <link rel="stylesheet" type="text/css" href="#{url_for_solr}/admin/file?file=/velocity/main.css&contentType=text/css"/>
+  <link rel="stylesheet" type="text/css" href="#{url_for_solr}/admin/file?file=/velocity/main.css&contentType=text/css"/-->
+
+<!--script type="text/javascript" src="/solr/files/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="/solr/files/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/solr/files/jquery-ui.css" />
+  <script type="text/javascript" src="/solr/files/jquery.highlight-3.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="/solr/files/main.css"/-->
+
+<script type="text/javascript" src="/QueryBuilder/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/QueryBuilder/js/jquery-ui-1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/QueryBuilder/js/jquery-ui-1.12.1/jquery-ui.css" />
+  <script type="text/javascript" src="/QueryBuilder/js/jquery.highlight-3.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="/QueryBuilder/js/main.css"/>
+
 

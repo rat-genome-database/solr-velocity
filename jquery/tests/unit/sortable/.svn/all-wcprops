@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/sortable
+END
+sortable_options.js
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/sortable/sortable_options.js
+END
+sortable_test_helpers.js
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/sortable/sortable_test_helpers.js
+END
+sortable_methods.js
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/sortable/sortable_methods.js
+END
+sortable_events.js
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/sortable/sortable_events.js
+END
+all.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/sortable/all.html
+END
+sortable.html
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/sortable/sortable.html
+END
+sortable_common.js
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/sortable/sortable_common.js
+END
+sortable_core.js
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/jquery/tests/unit/sortable/sortable_core.js
+END

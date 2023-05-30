@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt
+END
+admin-extra.menu-top.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/admin-extra.menu-top.html
+END
+example_atom.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/example_atom.xsl
+END
+protwords.txt
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/protwords.txt
+END
+admin-extra.menu-bottom.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/admin-extra.menu-bottom.html
+END
+stopwords.txt
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/stopwords.txt
+END
+elevate.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/elevate.xml
+END
+example_rss.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/example_rss.xsl
+END
+mapping-ISOLatin1Accent.txt
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/mapping-ISOLatin1Accent.txt
+END
+currency.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/currency.xml
+END
+schema.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/schema.xml
+END
+update-script.js
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/update-script.js
+END
+example.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/example.xsl
+END
+solrconfig.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/solrconfig.xml
+END
+luke.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/luke.xsl
+END
+mapping-FoldToASCII.txt
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/mapping-FoldToASCII.txt
+END
+updateXml.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/updateXml.xsl
+END
+scripts.conf
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/scripts.conf
+END
+admin-extra.html
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/admin-extra.html
+END
+synonyms.txt
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/synonyms.txt
+END
+spellings.txt
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/repos/rgd/!svn/ver/11724/dev/text_mining/Solr/conf/xslt/spellings.txt
+END

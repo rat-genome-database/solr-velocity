@@ -20,7 +20,7 @@
       #else
         
        #if($field.name == "gene_s")
-            <a href="javascript:searchParentObj('$facet.name');"><img src="http://pipelines.rgd.mcw.edu/rgdCuration/icons/zoom.png"></a>
+            <a href="javascript:searchParentObj('$facet.name');"><img src="https://pipelines.rgd.mcw.edu/rgdCuration/icons/zoom.png"></a>
         #end
             <a href="javascript:facetQuery('$field.name', '$facet.name')">$facet.name</a> ($number.format("#*,*",$facet.count))
         #end

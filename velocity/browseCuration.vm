@@ -9,9 +9,9 @@
 #set($curHost = $params.get("curHost"))
 #set($curServer = $curHost.toLowerCase().contains("pipelines"))
 #if ($curServer)
-#set($curLogServer = "ontomate.rgd.mcw.edu")
+#set($curLogServer = "https://ontomate.rgd.mcw.edu")
 #else
-#set($curLogServer = "ontomate.rgd.mcw.edu")
+#set($curLogServer = "https://ontomate.rgd.mcw.edu")
 #end
 #set($resultCountStr = $number.format("#*,*", $page.results_found))
 #set($pageStr = $number.format("#*,*", $page.current_page_number))
@@ -19,36 +19,33 @@
 Query condition: <span style="color:brown;">$request.params.get('message_label')</span>
 ###parse('queryCuration.vm')
     <div class="result-terms" #annTitle("Lists out the &fq filters.  Click to remove.")>
-      #if ($params.getParams('fq'))
-Filters: <a href="javascript:facetQueryPath(0)">All</a>
-      #end
-      #set($pathCounter = 0)
-      #foreach($fq in $params.getParams('fq'))
-        #set($previous_fq_count=$velocityCount - 0)
-        #if($fq != '')
-
-          #set ($fieldName=$fq.substring(0, $fq.indexOf(':')))
-          #set ($fieldType=$fieldName.substring($math.sub($fieldName.length(),3), $fieldName.length()))
-          #set ($fieldValue=$fq.substring($math.add($fq.indexOf(':'),2), $math.sub($fq.length(),1)))
-
-          #if($fieldType && $fieldType == "_id" && $fieldValue != '*')
-              #set($fieldValue=$import.read("https://ontomate.rgd.mcw.edu/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldValue%22)"))
+          #if ($params.getParams('fq'))
+          Filters: <a href="javascript:facetQueryPath(0)">All</a>
           #end
-              #set($fq=$import.read("https://ontomate.rgd.mcw.edu/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldName%22)")+": "+$fieldValue)
-              ###set($fq=$import.read("https://ontomate.rgd.mcw.edu/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldName%22)")+":"+$import.read("https://ontomate.rgd.mcw.edu/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldValue%22)"))
-        #set ($pathCounter = $pathCounter + 1)
-          #if ($pathCounter < $params.getParams('fq').size())
-            &gt; <a href="javascript:facetQueryPath($previous_fq_count)">$fq</a>
-          #else
-            &gt; $fq
-          #end
-        #end
-      #end
-    </div>
+          #foreach($fq in $params.getParams('fq'))
+             #set($previous_fq_count=$velocityCount - 0)
+                #if($fq != '')
+	             #set ($fieldName=$fq.substring(0, $fq.indexOf(':')))
+                     #set ($fieldType=$fieldName.substring($math.sub($fieldName.length(),3), $fieldName.length()))
+                     #set ($fieldValue=$fq.substring($math.add($fq.indexOf(':'),2), $math.sub($fq.length(),1)))
 
+                     #if($fieldType && $fieldType == "_id" && $fieldValue != '*')
+                         #set($fieldValue=$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldValue%22)"))
+                     #end
+                     #set($fq=$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldName%22)")+": "+$fieldValue)
+                    ###set($fq=$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldName%22)")+":"+$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldValue%22)"))
+                 #if ($velocityCount < $params.getParams('fq').size())
+                     &gt; <a href="javascript:facetQueryPath($previous_fq_count)">$fq</a>
+                  #else
+                      &gt; $fq
+                 #end
+               #end
+                                                                                                                                                                                                      #end
+   </div>
 #if($response.response.spellcheck.suggestions and $response.response.spellcheck.suggestions.size() > 0)
   Did you mean <a href="#url_for_home?q=$esc.url($response.response.spellcheck.suggestions.collation)#if($list.size($request.params.getParams('fq')) > 0)&#fqs($request.params.getParams('fq'))#end#debug">$response.response.spellcheck.suggestions.collation</a>?
 #end
+
 <script type="text/javascript">
 $(function() {
     $( document ).tooltip({
@@ -61,13 +58,13 @@ $(function() {
 function openPubmed(pmid, url) {
   var win=window.open(url, "extText");
   win.focus();
-  $.ajax({url:'https://$curLogServer/QueryBuilder/openPubmed?PmId='+pmid+'&userKey=$userKey'});
+  $.ajax({url:'$curLogServer/QueryBuilder/openPubmed?PmId='+pmid+'&userKey=$userKey'});
 }
 
 function openFullText(pmid, url) {
   var win=window.open(url, "extText");
   win.focus();
-  $.ajax({url:'https://$curLogServer/QueryBuilder/openFullText?PmId='+pmid+'&userKey=$userKey'});
+  $.ajax({url:'$curLogServer/QueryBuilder/openFullText?PmId='+pmid+'&userKey=$userKey'});
 }
 
 function convertAnnotation(annData) {
@@ -154,8 +151,7 @@ function openParent(pmid) {
   annRefreshInterval = 3000;
   getAnnRefreshAll(pmid);
   host = getParameterByName('curHost');
-console.log("CURATION HOST logged by JYOTHI:"+host);
-  $.ajax({url:'https://$curLogServer/QueryBuilder/addPmidToBasket?PmId='+pmid+'&userKey=$userKey'});
+  $.ajax({url:'$curLogServer/QueryBuilder/addPmidToBasket?PmId='+pmid+'&userKey=$userKey'});
   window.opener.location.href="https://" + host + "/rgdCuration/?module=curation&func=addPubmedIDToBucket&PMID=" + pmid;
   window.opener.focus();
 }
@@ -168,9 +164,18 @@ function searchParentObj(objLabel) {
 
 function addTermToParent(pmid, ontoTerm) {
   host = getParameterByName('curHost');
-  $.ajax({url:'https://$curLogServer/QueryBuilder/addTermToBasket?PmId='+pmid+'&ontoId='+ontoTerm+'&userKey=$userKey'});
+  $.ajax({url:'$curLogServer/QueryBuilder/addTermToBasket?PmId='+pmid+'&ontoId='+ontoTerm+'&userKey=$userKey'});
   window.opener.location.href="https://" + host + "/rgdCuration/?module=curation&func=addTermToBucket&termAcc=" + ontoTerm;
   window.opener.focus();
+}
+
+function searchGene(pmid, gene) {
+  host = getParameterByName('curHost');
+  $.ajax({url:'https://ontomate.rgd.mcw.edu/OntoSolr/collection1/select?wt=csv&fq=cat:(%22RGD_GENE%22)&fl=term&csv.header=false&&rows=1&q='+gene}).done(function(data){
+
+  window.opener.location.href="http://" + host + "/rgdCuration/?matchType=equals&objectType=14&submitBtn=Search+for+Object&hiddenXYZ123=&module=curation&func=searchObjects&objectName=" + data;
+  window.opener.focus();
+});
 }
 
 function search_term_in_parent(term, id) {
@@ -179,44 +184,15 @@ function search_term_in_parent(term, id) {
   window.opener.focus();
 }
 
-function facetQuery(field, value) {
-  if (value == '*') {
-    newValue = field + ':(' + value + ')';
-  } else {
-    newValue = field + ':"' + value + '"';
-  };
-  $("#fqEnd").before('<input id="fq" type="hidden" name="fq" value=\'' + newValue + '\'/>');
-  resubmitQuery();
-}
-
 function resubmitQuery() {
   $("#start").val("0");
   $("form#queryForm").submit();
 }
 
-function filterYear() {
-  var yearStart=$("#yearCondStart").val();
-  var yearEnd=$("#yearCondEnd").val();
-  if (yearStart == null || yearStart.length == 0) yearStart = "*";
-  if (yearEnd == null || yearEnd.length == 0) yearEnd = "*";
-  facetQueryNum('p_year', '['+yearStart+" TO "+yearEnd+"]");
-}
-
-function facetQueryNum(field, value) {
-  newValue = field + ':' + value;
-  $("#fqEnd").before('<input id="fq" type="hidden" name="fq" value=\'' + newValue + '\'/>');
-  resubmitQuery();
-}
+#parse("facet_js.vm")
 
 function startPage(recordNumber) {
   $("#start").val(recordNumber);
-  $("form#queryForm").submit();
-}
-
-function facetQueryPath(index) {
-$('input[id^=fq]').each(function(i) {
-   if (i >= index) $(this).attr("disabled", "disabled");
-});
   $("form#queryForm").submit();
 }
 
@@ -266,21 +242,21 @@ function setAbsRead(pmid, isRead) {
  <input type="hidden" name="message_label" value='$request.params.get("message_label")'/>
 #foreach($fq in $request.params.getParams('fq'))
  #if ($fq != "")
- <input id="fq" type="hidden" name="fq" value='$fq'/>
- #end
-#end
+  <input id="fq" type="hidden" name="fq" value='$fq'/>
+   #end
+   #end
 
-#foreach($facet_field in $request.params.getParams('facet.field'))
- #if ($fq != "")
- <input id="facet_field" type="hidden" name="facet.field" value='$facet_field'/>
- #end
-#end
+   #foreach($facet_field in $request.params.getParams('facet.field'))
+    #if ($fq != "")
+     <input id="facet_field" type="hidden" name="facet.field" value='$facet_field'/>
+      #end
+      #end
 
- <input id="fqEnd" type="hidden"/>
-</form>
+       <input id="fqEnd" type="hidden"/>
+ </form>
 <br>
 <div class="navigators">
-  #parse("facetsCuration.vm")
+#parse("facetsCuration.vm")
 </div>
 
 <div class="pagination" style="font-size:8px">
@@ -299,49 +275,49 @@ Start Record: <input type="text" id="start1" name="start1" size="8" value="$star
 </form>
 </td>
 <td style="font-size:9px" align="right">
-
-  #if($response.response.get('grouped'))
-    <span><span class="results-found">$response.response.get('grouped').size() group(s)</span> found in ${response.responseHeader.QTime} ms</span>
+ #if($response.response.get('grouped'))
+     <span><span class="results-found">$response.response.get('grouped').size() group(s)</span> found in ${response.responseHeader.QTime} ms</span>
   #else
-<span><span class="results-found">$resultCountStr</span> results found in ${response.responseHeader.QTime} ms</span><br>
-  #link_to_previous_page_curation("previous")
-  Page <span class="page-num">$pageStr</span> of <span
-        class="page-count">$pageCountStr</span>#end
-  #link_to_next_page_curation("next")
+  <span><span class="results-found">$resultCountStr</span> results found in ${response.responseHeader.QTime} ms</span><br>
+ #link_to_previous_page_curation("previous")
+ Page <span class="page-num">$pageStr</span> of <span
+        class="page-count">$pageCountStr</span>
+#end
+ #link_to_next_page_curation("next") 
 </td>
 </tr>
 </table>
 </div>
 <div class="results">
-  #if($response.response.get('grouped'))
+ #if($response.response.get('grouped'))
     #foreach($grouping in $response.response.get('grouped'))
-      #parse("hitGrouped.vm")
-    #end
-  #else
-    #set($hitCount=$page.start)
-    #foreach($doc in $response.results)
-      #set($hitCount=$math.add($hitCount,1))
-      #parse("hitCuration.vm")
-    #end
-  #end
+       #parse("hitGrouped.vm")
+     #end
+ #else
+       #set($hitCount=$page.start)
+       #foreach($doc in $response.results)
+            #set($hitCount=$math.add($hitCount,1))
+            #parse("hitCuration.vm")
+       #end
+ #end
 </div>
-
 <div class="pagination">
 <table>
 <tr>
 <td width="80%" align="left">
 </td>
 <td align="right" style="font-size:9px">
-  #if($response.response.get('grouped'))
-  #else
-  <span class="results-found">$resultCountStr</span> results found.
+ #if($response.response.get('grouped'))
+   #else
+   <span class="results-found">$resultCountStr</span> results found.
   <br/>
-  #link_to_previous_page_curation("previous")
+ #link_to_previous_page_curation("previous")
   Page <span class="page-num">$pageStr</span> of <span
         class="page-count">$pageCountStr</span>
   #link_to_next_page_curation("next")
-  #end
-</td>
+   #end
+   </td>
 </tr>
 </table>
 </div>
+

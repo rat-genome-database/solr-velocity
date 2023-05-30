@@ -42,7 +42,7 @@ Filters:
           #set ($fieldValue=$fq.substring($math.add($fq.indexOf(':'),2), $math.sub($fq.length(),1)))
 
           #if($fieldType && $fieldType == "_id")
-              #set($fq=$fieldName+":"+$import.read("http://morgan.hmgc.mcw.edu/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldValue%22)"))
+              #set($fq=$fieldName+":"+$import.read("http://localhost:8080/OntoSolr/select?v.template=termsstring&wt=velocity&q=id:(%22$fieldValue%22)"))
           #end
         &gt; <a style="{text-decoration: line-through;}" href="javascript:facetQueryPath($previous_fq_count)">$fq</a>
         #end

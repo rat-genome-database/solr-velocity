@@ -1,0 +1,75 @@
+#set($nih_url = "http://www.ncbi.nlm.nih.gov/pubmed/" + $doc.getFieldValue('pmid'))
+<div>PMID: #field('pmid')  <a href="$nih_url">NCBI page</a></div>
+<div>Title: #field('title')</div>
+<div>Abstract: #field('abstract')</div>
+
+#set ($genes=$doc.getFieldValue('gene'))
+#if ($doc.getFieldValue('gene'))
+<div>Genes: 
+#foreach ($gene in $genes)
+[$gene] 
+#end
+</div>
+#end
+
+#set ($onto_id_values = $doc.getFieldValue('onto_id'))
+#set ($onto_term_values = $doc.getFieldValue('onto_term'))
+#if ($doc.getFieldValue('onto_id'))
+<div>Ontology terms:
+#set ($value_length = $onto_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$onto_term_values.get($i))
+#set ($id_value=$onto_id_values.get($i))
+<a href="http://rgd.mcw.edu/rgdweb/ontology/annot.html?acc_id=$id_value">$term_value</a>
+#end
+</div>
+#end
+
+#set ($rgd_id_values = $doc.getFieldValue('rgd_obj_id'))
+#set ($rgd_term_values = $doc.getFieldValue('rgd_obj_term'))
+#if ($doc.getFieldValue('rgd_obj_id'))
+<div>RGD objects:
+#set ($value_length = $rgd_id_values.size() - 1)
+#foreach ($i in [0..$value_length])
+#set ($term_value=$rgd_term_values.get($i))
+#set ($id_value=$rgd_id_values.get($i))
+#set ($rgd_id=$id_value.substring(4, $id_value.length()))
+<a href="http://rgd.mcw.edu/rgdweb/report/gene/main.html?id=$rgd_id">$term_value</a>
+#end
+</div>
+#end
+
+#set($organism_id=$doc.getFirstValue('organism_ncbi_id'))
+#set($organism_term=$doc.getFirstValue('organism_term'))
+#if ($doc.getFirstValue('organism_ncbi_id'))
+<div>Organism: 
+<a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=$organism_id&mode=info">$organism_term</a>
+</div>
+#end
+
+##<div>Text: #field('text')</div>
+##<div>Sentence: #field('sentence')</div>
+##<div>Language: #field('language')</div>
+##<div>Text: #field('text')</div>
+<div class="mlt">
+  #set($mlt = $mltResults.get($docId))
+  #set($mltOn = $params.getBool('mlt'))
+  #if($mltOn == true)<div class="field-name">Similar Items</div>#end
+  #if ($mltOn && $mlt && $mlt.size() > 0)
+  <ul>
+    #foreach($mltHit in $mlt)
+      #set($mltId = $mltHit.getFieldValue('pmid'))
+      <li><div><a href="#url_for_home?q=id:$mltId">$mltId</a></div><div><span class="field-name">Title:</span> $mltHit.getFieldValue('Title')</div>
+        <div><span class="field-name">Abstract:</span> $mltHit.getFieldValue('abstract') </div>
+
+      </li>
+    #end
+  </ul>
+  #elseif($mltOn && $mlt.size() == 0)
+    <div>No Similar Items Found</div>
+  #end
+</div>
+#if($params.getBool("debugQuery",false))
+  <a href="#" onclick='jQuery(this).siblings("pre").toggle(); return false;'>toggle explain</a>
+  <pre style="display:none">$response.getExplainMap().get($doc.getFirstValue('id'))</pre>
+#end

@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+  #parse("headGenetics.vm")
+</head>
+  <body>
+    <div id="header">
+      #parse("headerGenetics.vm")
+    </div>
+    <div id="tabs">
+      #parse("tabs.vm")
+    </div>
+    <div id="content">
+      $content
+    </div>
+    <div id="footer">
+      #parse("footer.vm")
+    </div>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+function filterYear() {
+  var yearStart=$("#yearCondStart").val();
+  var yearEnd=$("#yearCondEnd").val();
+  if (yearStart == null || yearStart.length == 0) yearStart = "*";
+  if (yearEnd == null || yearEnd.length == 0) yearEnd = "*";
+  facetQueryRemove('p_year');	
+  facetQueryNum('p_year', '['+yearStart+" TO "+yearEnd+"]");
+}
+
+function facetQueryRemove(field) {
+  $('input[id^=fq]').each(function(i) {
+   if ($(this).val().indexOf('p_year')>=0) $(this).attr("disabled", "disabled");
+  });
+}
+
+function facetQueryNum(field, value) {
+  newValue = field + ':' + value;
+  $("#fqEnd").before('<input id="fq" type="hidden" name="fq" value=\'' + newValue + '\'/>');
+  resubmitQuery();
+}
+
+function facetQueryPath(index) {
+  $('input[id^=fq]').each(function(i) {
+   if (i >= index) $(this).attr("disabled", "disabled");
+  });
+  $("form#queryForm").submit();
+}
+
+function facetQuery(field, value) {
+  if (value == '*') {
+    newValue = field + ':(' + value + ')';
+  } else {
+    newValue = field + ':"' + value + '"';
+  };
+  $("#fqEnd").before('<input id="fq" type="hidden" name="fq" value=\'' + newValue + '\'/>');
+  resubmitQuery();
+}
+
+
